@@ -4,9 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.lankasmartmart"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.lankasmartmart"
@@ -14,7 +12,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -32,6 +29,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -43,4 +41,3 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
-

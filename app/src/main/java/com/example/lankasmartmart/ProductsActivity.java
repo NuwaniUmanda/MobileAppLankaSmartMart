@@ -74,7 +74,7 @@ public class ProductsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // FIX: Categories nav → show all products
+        // Categories nav → show all products
         navCategories.setOnClickListener(v ->
                 Toast.makeText(this, "Already browsing categories", Toast.LENGTH_SHORT).show());
 

@@ -74,7 +74,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         btnAddToCart.setEnabled(inStock);
         btnAddToCart.setAlpha(inStock ? 1.0f : 0.5f);
 
-        // Back button: go to previous screen
+        // Back button
         btnBack.setOnClickListener(v -> finish());
 
         // Add to Cart

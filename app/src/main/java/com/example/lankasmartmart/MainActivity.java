@@ -133,14 +133,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, BarcodeScannerActivity.class));
         });
 
-        // Order History → OrderHistoryActivity (not OrderConfirmationActivity)
         menuOrderHistory.setOnClickListener(v -> {
             profileOverlay.setVisibility(View.GONE);
             startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
         });
     }
 
-    /** Opens ProductsActivity filtered to the given category. */
+    /** Opens ProductsActivity */
     private void openCategory(String category) {
         Intent i = new Intent(MainActivity.this, ProductsActivity.class);
         i.putExtra("CATEGORY", category);

@@ -3,10 +3,10 @@ package com.example.lankasmartmart;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
     private SwitchCompat pushNotificationSwitch, emailNotificationSwitch, smsNotificationSwitch;
     private SwitchCompat languageSwitch, darkModeSwitch;
     private Button logoutButton;
-    private LinearLayout navHome, navCategories, navCart, navProfile;
+    private TextView navHome, navCategories, navCart, navProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

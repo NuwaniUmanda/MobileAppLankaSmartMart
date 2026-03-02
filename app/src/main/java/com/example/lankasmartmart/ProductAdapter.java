@@ -83,7 +83,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return products.size();
     }
 
-    // 'public static class' fixes the visibility scope warning
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView ivProduct;
         TextView tvProductName, tvPrice, tvOutOfStock;

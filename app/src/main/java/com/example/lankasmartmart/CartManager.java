@@ -20,7 +20,7 @@ public class CartManager {
         return instance;
     }
 
-    public void addToCart(Product product, int quantity) { // CHANGED: Product instead of ProductsActivity
+    public void addToCart(Product product, int quantity) {
         if (cartItems.containsKey(product.getId())) {
             CartItemModel item = cartItems.get(product.getId());
             if (item != null) {
@@ -73,7 +73,7 @@ public class CartManager {
     }
 
     public static class CartItemModel {
-        private Product product; // CHANGED: Product instead of ProductsActivity
+        private Product product;
         private int quantity;
 
         public CartItemModel(Product product, int quantity) {

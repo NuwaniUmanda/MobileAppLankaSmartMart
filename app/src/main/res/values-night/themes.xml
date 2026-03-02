@@ -8,4 +8,5 @@
         <item name="colorControlActivated">#3D9970</item>
         <item name="colorControlNormal">#CCCCCC</item>
     </style>
+    <style name="Theme.LankaSmartMart" parent="Base.Theme.LankaSmartMart" />
 </resources>

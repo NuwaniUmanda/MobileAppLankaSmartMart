@@ -158,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + TABLE_PRODUCTS + "(" + PRODUCT_ID + ")"
                 + ")");
 
-        // Insert default data — categories MUST come before products
+        // Insert default data
         insertDefaultCategories(db);
         insertSampleProducts(db);
     }
@@ -240,7 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(USER_NAME, name);
         values.put(USER_EMAIL, email);
-        values.put(USER_PASSWORD, password); // ⚠️ Note: hash passwords in production
+        values.put(USER_PASSWORD, password); // hash passwords in production
         values.put(USER_PHONE, phone);
 
         long result = db.insert(TABLE_USERS, null, values);

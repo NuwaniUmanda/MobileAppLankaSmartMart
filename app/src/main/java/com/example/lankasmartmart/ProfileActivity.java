@@ -23,6 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private int currentUserId;
     private String currentUserEmail;
+    private String currentUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
+        // Get data from SharedPreferences
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         currentUserId    = prefs.getInt("USER_ID", -1);
         currentUserEmail = prefs.getString("USER_EMAIL", "");
+        currentUserName  = prefs.getString("USER_NAME", "");
+
+        // If user is not logged in, redirect to login (optional)
+        if (currentUserId == -1) {
+            Toast.makeText(this, "Please log in first", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
 
         initializeViews();
         loadUserData();
@@ -69,31 +80,52 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserData() {
-        if (currentUserId == -1) {
-            Toast.makeText(this, R.string.user_not_logged_in, Toast.LENGTH_SHORT).show();
-            return;
+        // Set email from SharedPreferences (always available if logged in)
+        if (!currentUserEmail.isEmpty()) {
+            userEmail.setText(currentUserEmail);
+            userEmailDetail.setText(currentUserEmail);
         }
 
-        Cursor cursor = databaseHelper.getUserByEmail(currentUserEmail);
+        // Set name from SharedPreferences if available
+        if (!currentUserName.isEmpty()) {
+            userName.setText(currentUserName);
+        }
 
-        if (cursor != null && cursor.moveToFirst()) {
-            try {
-                String name  = cursor.getString(cursor.getColumnIndexOrThrow("full_name"));
-                String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+        // Now fetch from database to ensure we have the latest (and to get phone)
+        Cursor cursor = null;
+        try {
+            cursor = databaseHelper.getUserByEmail(currentUserEmail);
+            if (cursor != null && cursor.moveToFirst()) {
+                // Get the name from database
+                String nameFromDb = cursor.getString(cursor.getColumnIndexOrThrow("full_name"));
                 String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
 
-                userName.setText(name);
-                userEmail.setText(email);
-                userEmailDetail.setText(email);
-                userPhone.setText((phone != null && !phone.isEmpty())
-                        ? phone : getString(R.string.not_provided));
-                userLocation.setText(R.string.default_location);
+                // If SharedPreferences name is empty or different, update it
+                if (currentUserName.isEmpty() || !currentUserName.equals(nameFromDb)) {
+                    userName.setText(nameFromDb);
+                    // Also update SharedPreferences
+                    SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("USER_NAME", nameFromDb);
+                    editor.apply();
+                    currentUserName = nameFromDb; // update local variable
+                }
 
-            } catch (IllegalArgumentException e) {
-                Toast.makeText(this, "Error loading user data", Toast.LENGTH_SHORT).show();
-            } finally {
-                cursor.close();
+                // Set phone
+                userPhone.setText((phone != null && !phone.isEmpty()) ? phone : "Not provided");
+                userLocation.setText("Default Location"); // You might want to get this from somewhere
+            } else {
+                // If database query fails, but we have name from prefs, keep it
+                if (currentUserName.isEmpty()) {
+                    userName.setText("User"); // Fallback
+                }
+                Toast.makeText(this, "Could not load user details from database", Toast.LENGTH_SHORT).show();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error loading user data", Toast.LENGTH_SHORT).show();
+        } finally {
+            if (cursor != null) cursor.close();
         }
     }
 
@@ -108,11 +140,14 @@ public class ProfileActivity extends AppCompatActivity {
                     String city        = cursor.getString(cursor.getColumnIndexOrThrow("city"));
                     String fullAddress = addressLine + ", " + city;
 
-                    if ("Home".equals(type))   homeAddress.setText(fullAddress);
-                    else if ("Office".equals(type)) officeAddress.setText(fullAddress);
-
+                    if ("Home".equals(type)) {
+                        homeAddress.setText(fullAddress);
+                    } else if ("Office".equals(type)) {
+                        officeAddress.setText(fullAddress);
+                    }
                 } while (cursor.moveToNext());
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
+                e.printStackTrace();
                 Toast.makeText(this, "Error loading addresses", Toast.LENGTH_SHORT).show();
             } finally {
                 cursor.close();
@@ -124,18 +159,18 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // Back button → returns to previous screen naturally
+        // Back button
         btnBack.setOnClickListener(v -> finish());
 
-        // Profile picture click (edit profile placeholder)
+        // Profile picture click
         profilePicture.setOnClickListener(v ->
-                Toast.makeText(this, R.string.edit_profile_picture, Toast.LENGTH_SHORT).show());
+                Toast.makeText(this, "Edit profile picture", Toast.LENGTH_SHORT).show());
 
         // Address clicks
         homeAddressLayout.setOnClickListener(v ->
-                Toast.makeText(this, R.string.edit_home_address, Toast.LENGTH_SHORT).show());
+                Toast.makeText(this, "Edit home address", Toast.LENGTH_SHORT).show());
         officeAddressLayout.setOnClickListener(v ->
-                Toast.makeText(this, R.string.edit_office_address, Toast.LENGTH_SHORT).show());
+                Toast.makeText(this, "Edit office address", Toast.LENGTH_SHORT).show());
 
         // Bottom Navigation
         navHome.setOnClickListener(v -> {
@@ -154,6 +189,6 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(ProfileActivity.this, CartActivity.class)));
 
         navProfile.setOnClickListener(v ->
-                Toast.makeText(this, R.string.already_on_profile, Toast.LENGTH_SHORT).show());
+                Toast.makeText(this, "Already on profile", Toast.LENGTH_SHORT).show());
     }
 }
