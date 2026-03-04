@@ -308,6 +308,37 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- Search Results Overlay -->
+    <LinearLayout
+        android:id="@+id/searchResultsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:layout_marginTop="180dp"
+        android:orientation="vertical"
+        android:background="#F5F5F5"
+        android:visibility="gone"
+        android:elevation="6dp">
+
+        <TextView
+            android:id="@+id/searchResultsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search Results"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResultsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:clipToPadding="false"/>
+
+    </LinearLayout>
+
     <!-- Bottom Navigation (Settings style) -->
     <LinearLayout
         android:id="@+id/bottomNavigation"

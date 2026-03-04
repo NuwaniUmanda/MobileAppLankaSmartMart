@@ -32,7 +32,7 @@
     <string name="create_account_btn">Create Account</string>
 
     <!-- Home -->
-    <string name="hello_user">Hello, Kasun !</string>
+    <string name="hello_user">Hello, %1$s !</string>
     <string name="search_products">Search for products…</string>
     <string name="new_year_special">New Year Special !</string>
     <string name="shop_category">Shop by Category</string>
