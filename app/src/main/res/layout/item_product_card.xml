@@ -6,74 +6,148 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="3dp">
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:orientation="vertical">
 
-        <!-- Product Image -->
-        <ImageView
-            android:id="@+id/ivProduct"
+        <!-- Image Container with Stock Badge -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_shopping_cart"
-            android:background="#F5F5F5"
-            android:contentDescription="Product image"/>
+            android:layout_height="130dp">
 
-        <!-- Out of Stock Overlay -->
-        <TextView
-            android:id="@+id/tvOutOfStock"
+            <ImageView
+                android:id="@+id/ivProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:background="#FFFFFF"
+                android:padding="8dp"
+                android:src="@drawable/ic_shopping_cart"
+                android:contentDescription="Product image"/>
+
+            <!-- Stock Badge -->
+            <TextView
+                android:id="@+id/tvStockBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:layout_margin="8dp"
+                android:text="In Stock"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:background="@drawable/badge_in_stock"/>
+
+        </FrameLayout>
+
+        <!-- Product Info — all centered -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Out of Stock"
-            android:textColor="#B71C1C"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="4dp"
-            android:visibility="gone"/>
+            android:padding="10dp">
 
-        <!-- Product Name -->
-        <TextView
-            android:id="@+id/tvProductName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Basmati Rice - 1kg"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:layout_marginTop="8dp"/>
+            <!-- Product Name -->
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Basmati Rice - 1kg"
+                android:textColor="#212121"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:gravity="center"/>
 
-        <!-- Price -->
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LKR 350.00"
-            android:textColor="#3D9970"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="4dp"/>
+            <!-- Star Rating -->
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:numStars="5"
+                android:rating="4.0"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                android:theme="@style/YellowRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"/>
 
-        <!-- Add to Cart Button -->
-        <Button
-            android:id="@+id/btnAddToCart"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Add to Cart"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#2E7D53"
-            android:textSize="12sp"
-            android:textAllCaps="false"
-            android:layout_marginTop="8dp"/>
+            <!-- Price -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LKR 350.00"
+                android:textColor="#31835D"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp"/>
 
+            <!-- Quantity Selector -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/btnMinus"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_minus"
+                    android:background="@drawable/quantity_btn_bg"
+                    android:padding="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="Decrease"/>
+
+                <TextView
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textColor="#212121"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/btnPlus"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_plus"
+                    android:background="@drawable/quantity_btn_bg"
+                    android:padding="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="Increase"/>
+
+            </LinearLayout>
+
+            <!-- Add to Cart Button -->
+            <Button
+                android:id="@+id/btnAddToCart"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="Add to cart"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#31835D"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

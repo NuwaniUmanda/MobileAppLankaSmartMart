@@ -5,39 +5,61 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <!-- Top Bar -->
+    <!-- Top Bar (Settings-style) -->
     <RelativeLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:paddingTop="40dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="#FFFFFF"
-        android:padding="16dp"
-        android:elevation="4dp">
+        android:elevation="10dp">
 
-        <!-- Back Button -->
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="@string/back"
             android:clickable="true"
+            android:contentDescription="@string/back"
             android:focusable="true"
-            app:tint="#212121"/>
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back" />
 
-        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingTop="20dp"
             android:text="@string/checkout"
             android:textColor="#212121"
             android:textSize="20sp"
             android:textStyle="bold"/>
+
     </RelativeLayout>
+
+    <!-- Bottom Section -->
+    <LinearLayout
+        android:id="@+id/bottomSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:elevation="8dp">
+
+        <Button
+            android:id="@+id/placeOrderButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/place_order"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:backgroundTint="#31835D"
+            android:textAllCaps="false"/>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -182,7 +204,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/profile_card_background"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:layout_marginBottom="20dp">
 
                 <!-- Cash on Delivery -->
@@ -200,7 +222,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_shopping_cart"
+                        android:src="@drawable/ic_home"
                         android:contentDescription="@string/cod"
                         app:tint="#31835D"/>
 
@@ -213,20 +235,21 @@
                         android:textColor="#212121"
                         android:textSize="14sp"/>
 
-                    <ImageView
+                    <CheckBox
                         android:id="@+id/paymentCODIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cb_checked"
-                        android:contentDescription="@string/selected"
-                        app:tint="#31835D"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/cb_selector"
+                        android:checked="true"
+                        android:clickable="false"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E0E0E0"
-                    android:layout_marginVertical="4dp"/>
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"/>
 
                 <!-- Card Payment -->
                 <LinearLayout
@@ -256,20 +279,21 @@
                         android:textColor="#212121"
                         android:textSize="14sp"/>
 
-                    <ImageView
+                    <CheckBox
                         android:id="@+id/paymentCardIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cb_unchecked"
-                        android:contentDescription="@string/not_selected"
-                        app:tint="#757575"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/cb_selector"
+                        android:checked="false"
+                        android:clickable="false"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E0E0E0"
-                    android:layout_marginVertical="4dp"/>
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"/>
 
                 <!-- Online Banking -->
                 <LinearLayout
@@ -299,14 +323,15 @@
                         android:textColor="#212121"
                         android:textSize="14sp"/>
 
-                    <ImageView
+                    <CheckBox
                         android:id="@+id/paymentOnlineIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cb_unchecked"
-                        android:contentDescription="@string/not_selected"
-                        app:tint="#757575"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/cb_selector"
+                        android:checked="false"
+                        android:clickable="false"/>
                 </LinearLayout>
+
             </LinearLayout>
 
             <!-- Order Summary Section -->
@@ -327,7 +352,6 @@
                 android:padding="16dp"
                 android:layout_marginBottom="20dp">
 
-                <!-- Items Count -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -350,7 +374,6 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
 
-                <!-- Subtotal -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -373,7 +396,6 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
 
-                <!-- Delivery -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -396,7 +418,6 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
 
-                <!-- Discount -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -425,7 +446,6 @@
                     android:background="#E0E0E0"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Total -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -448,31 +468,10 @@
                         android:textSize="18sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-
-    <!-- Bottom Section -->
-    <LinearLayout
-        android:id="@+id/bottomSection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:elevation="8dp">
-
-        <Button
-            android:id="@+id/placeOrderButton"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="@string/place_order"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:backgroundTint="#31835D"
-            android:textAllCaps="false"/>
-    </LinearLayout>
 
 </RelativeLayout>

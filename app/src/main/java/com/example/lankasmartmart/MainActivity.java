@@ -1,6 +1,7 @@
 package com.example.lankasmartmart;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
     ImageView menuIcon, closeMenu;
     RelativeLayout profileOverlay;
     LinearLayout groceriesCategory, householdCategory, personalCareCategory, stationeryCategory;
-    LinearLayout navHome, navCategories, navCart, navProfile;
     LinearLayout menuNotifications, menuSettings, menuBarcode, menuOrderHistory;
     View viewProfileButton;
+
+    // FIX: changed from LinearLayout to AppCompatTextView to match activity_main.xml
+    AppCompatTextView navHome, navCategories, navCart, navProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         personalCareCategory = findViewById(R.id.personalCareCategory);
         stationeryCategory   = findViewById(R.id.stationeryCategory);
 
+        // FIX: AppCompatTextView instead of LinearLayout
         navHome       = findViewById(R.id.navHome);
         navCategories = findViewById(R.id.navCategories);
         navCart       = findViewById(R.id.navCart);
@@ -52,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
         menuBarcode       = findViewById(R.id.menuBarcode);
         menuOrderHistory  = findViewById(R.id.menuOrderHistory);
 
-        // Get user data from intent
-        Intent intent   = getIntent();
-        String userName = intent.getStringExtra("USER_NAME");
-        String userEmail = intent.getStringExtra("USER_EMAIL");
+        // Get user data from SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String userName  = prefs.getString("USER_NAME", "");
+        String userEmail = prefs.getString("USER_EMAIL", "");
 
         // Extract name from email if USER_NAME is not provided
         if (userName == null || userName.isEmpty()) {
@@ -91,13 +96,22 @@ public class MainActivity extends AppCompatActivity {
         // Hide overlay when clicking dim background
         profileOverlay.setOnClickListener(v -> profileOverlay.setVisibility(View.GONE));
 
-        // View Profile button in overlay → ProfileActivity
+        // View Profile button in overlay
         viewProfileButton.setOnClickListener(v -> {
             profileOverlay.setVisibility(View.GONE);
             startActivity(new Intent(MainActivity.this, ProfileActivity.class));
         });
+        findViewById(R.id.viewProfileButton).setOnClickListener(v -> {
+            profileOverlay.setVisibility(View.GONE);
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+        });
 
-        // Category cards → ProductsActivity
+        findViewById(R.id.menuNotifications).setOnClickListener(v -> {
+            profileOverlay.setVisibility(View.GONE);
+            startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
+        });
+
+        // Category cards
         groceriesCategory.setOnClickListener(v -> openCategory("Groceries"));
         householdCategory.setOnClickListener(v -> openCategory("Household"));
         personalCareCategory.setOnClickListener(v -> openCategory("Personal Care"));
@@ -107,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
         navHome.setOnClickListener(v ->
                 Toast.makeText(this, "Already on Home", Toast.LENGTH_SHORT).show());
 
-        // Categories nav now opens ProductsActivity showing all products
         navCategories.setOnClickListener(v -> openCategory("All"));
 
         navCart.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, CartActivity.class)));
 
-        navProfile.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class)));
+        navProfile.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+        });
 
         // Profile Menu Items
         menuNotifications.setOnClickListener(v -> {
@@ -122,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         });
 
-        // Settings in overlay → SettingsActivity
         menuSettings.setOnClickListener(v -> {
             profileOverlay.setVisibility(View.GONE);
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
@@ -139,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /** Opens ProductsActivity */
     private void openCategory(String category) {
         Intent i = new Intent(MainActivity.this, ProductsActivity.class);
         i.putExtra("CATEGORY", category);

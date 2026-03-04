@@ -3,7 +3,37 @@
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
+
+    <!-- Top-left: dots grid -->
     <path
         android:fillColor="#757575"
-        android:pathData="M4,8h4V4H4V8zM10,20h4v-4h-4V20zM4,20h4v-4H4V20zM4,14h4v-4H4V14zM10,14h4v-4h-4V14zM16,4v4h4V4H16zM10,8h4V4h-4V8zM16,14h4v-4h-4V14zM16,20h4v-4h-4V20z"/>
+        android:pathData="M2,2h9v9H2z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M4,4h1.5v1.5H4zM7,4h1.5v1.5H7zM4,7h1.5v1.5H4zM7,7h1.5v1.5H7z"/>
+
+    <!-- Top-right: diagonal stripes -->
+    <path
+        android:fillColor="#757575"
+        android:pathData="M13,2h9v9h-9z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M14.5,3.5l5,5 -1,1 -5,-5zM17,3.5l2.5,2.5 -1,1 -2.5,-2.5zM14.5,6.5l2.5,2.5 -1,1 -2.5,-2.5z"/>
+
+    <!-- Bottom-left: diagonal stripes -->
+    <path
+        android:fillColor="#757575"
+        android:pathData="M2,13h9v9H2z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3.5,14.5l5,5 -1,1 -5,-5zM6,14.5l2.5,2.5 -1,1 -2.5,-2.5zM3.5,17.5l2.5,2.5 -1,1 -2.5,-2.5z"/>
+
+    <!-- Bottom-right: dots grid -->
+    <path
+        android:fillColor="#757575"
+        android:pathData="M13,13h9v9h-9z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M15,15h1.5v1.5H15zM18,15h1.5v1.5H18zM15,18h1.5v1.5H15zM18,18h1.5v1.5H18z"/>
+
 </vector>

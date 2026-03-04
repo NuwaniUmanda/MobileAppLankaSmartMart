@@ -4,26 +4,33 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    // UI Components
     private ImageView btnBack, profilePicture;
     private TextView userName, userEmail, userEmailDetail, userPhone, userLocation;
     private TextView homeAddress, officeAddress;
     private LinearLayout homeAddressLayout, officeAddressLayout;
-    private LinearLayout navHome, navCategories, navCart, navProfile;
+    private androidx.appcompat.widget.AppCompatTextView navHome, navCategories, navCart, navProfile;
 
-    // Data
     private DatabaseHelper databaseHelper;
     private int currentUserId;
     private String currentUserEmail;
     private String currentUserName;
+
+    // Track saved address IDs for update vs insert
+    private int homeAddressId   = -1;
+    private int officeAddressId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +39,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
-        // Get data from SharedPreferences
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        currentUserId    = prefs.getInt("USER_ID", -1);
+        currentUserId    = prefs.getInt("USER_ID",    -1);
         currentUserEmail = prefs.getString("USER_EMAIL", "");
-        currentUserName  = prefs.getString("USER_NAME", "");
+        currentUserName  = prefs.getString("USER_NAME",  "");
 
-        // If user is not logged in, redirect to login (optional)
         if (currentUserId == -1) {
             Toast.makeText(this, "Please log in first", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
@@ -53,142 +58,211 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        // Top bar
-        btnBack = findViewById(R.id.btnBack);
-
-        // Profile info
-        profilePicture  = findViewById(R.id.profilePicture);
-        userName        = findViewById(R.id.userName);
-        userEmail       = findViewById(R.id.userEmail);
-
-        // Contact info
-        userPhone       = findViewById(R.id.userPhone);
-        userEmailDetail = findViewById(R.id.userEmailDetail);
-        userLocation    = findViewById(R.id.userLocation);
-
-        // Addresses
+        btnBack             = findViewById(R.id.btnBack);
+        profilePicture      = findViewById(R.id.profilePicture);
+        userName            = findViewById(R.id.userName);
+        userEmail           = findViewById(R.id.userEmail);
+        userPhone           = findViewById(R.id.userPhone);
+        userEmailDetail     = findViewById(R.id.userEmailDetail);
+        userLocation        = findViewById(R.id.userLocation);
         homeAddressLayout   = findViewById(R.id.homeAddressLayout);
         officeAddressLayout = findViewById(R.id.officeAddressLayout);
         homeAddress         = findViewById(R.id.homeAddress);
         officeAddress       = findViewById(R.id.officeAddress);
-
-        // Bottom navigation
-        navHome       = findViewById(R.id.navHome);
-        navCategories = findViewById(R.id.navCategories);
-        navCart       = findViewById(R.id.navCart);
-        navProfile    = findViewById(R.id.navProfile);
+        navHome             = findViewById(R.id.navHome);
+        navCategories       = findViewById(R.id.navCategories);
+        navCart             = findViewById(R.id.navCart);
+        navProfile          = findViewById(R.id.navProfile);
     }
 
     private void loadUserData() {
-        // Set email from SharedPreferences (always available if logged in)
         if (!currentUserEmail.isEmpty()) {
             userEmail.setText(currentUserEmail);
             userEmailDetail.setText(currentUserEmail);
         }
-
-        // Set name from SharedPreferences if available
         if (!currentUserName.isEmpty()) {
             userName.setText(currentUserName);
         }
 
-        // Now fetch from database to ensure we have the latest (and to get phone)
         Cursor cursor = null;
         try {
             cursor = databaseHelper.getUserByEmail(currentUserEmail);
             if (cursor != null && cursor.moveToFirst()) {
-                // Get the name from database
-                String nameFromDb = cursor.getString(cursor.getColumnIndexOrThrow("full_name"));
-                String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
+                String nameFromDb = cursor.getString(
+                        cursor.getColumnIndexOrThrow("full_name"));
+                String phone = cursor.getString(
+                        cursor.getColumnIndexOrThrow("phone"));
 
-                // If SharedPreferences name is empty or different, update it
-                if (currentUserName.isEmpty() || !currentUserName.equals(nameFromDb)) {
-                    userName.setText(nameFromDb);
-                    // Also update SharedPreferences
-                    SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("USER_NAME", nameFromDb);
-                    editor.apply();
-                    currentUserName = nameFromDb; // update local variable
-                }
-
-                // Set phone
-                userPhone.setText((phone != null && !phone.isEmpty()) ? phone : "Not provided");
-                userLocation.setText("Default Location"); // You might want to get this from somewhere
-            } else {
-                // If database query fails, but we have name from prefs, keep it
-                if (currentUserName.isEmpty()) {
-                    userName.setText("User"); // Fallback
-                }
-                Toast.makeText(this, "Could not load user details from database", Toast.LENGTH_SHORT).show();
+                userName.setText(nameFromDb);
+                userPhone.setText((phone != null && !phone.isEmpty())
+                        ? phone : "Tap to add phone number");
+                userLocation.setText("Sri Lanka");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error loading user data", Toast.LENGTH_SHORT).show();
         } finally {
             if (cursor != null) cursor.close();
         }
     }
 
     private void loadAddresses() {
+        homeAddressId   = -1;
+        officeAddressId = -1;
+
         Cursor cursor = databaseHelper.getUserAddresses(currentUserId);
-
         if (cursor != null && cursor.moveToFirst()) {
-            try {
-                do {
-                    String type        = cursor.getString(cursor.getColumnIndexOrThrow("type"));
-                    String addressLine = cursor.getString(cursor.getColumnIndexOrThrow("address_line"));
-                    String city        = cursor.getString(cursor.getColumnIndexOrThrow("city"));
-                    String fullAddress = addressLine + ", " + city;
+            do {
+                int colId   = cursor.getColumnIndex("address_id");
+                int colType = cursor.getColumnIndex("type");
+                int colLine = cursor.getColumnIndex("address_line");
+                int colCity = cursor.getColumnIndex("city");
 
-                    if ("Home".equals(type)) {
-                        homeAddress.setText(fullAddress);
-                    } else if ("Office".equals(type)) {
-                        officeAddress.setText(fullAddress);
-                    }
-                } while (cursor.moveToNext());
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Error loading addresses", Toast.LENGTH_SHORT).show();
-            } finally {
-                cursor.close();
-            }
+                if (colType < 0) continue;
+                String type        = cursor.getString(colType);
+                String addressLine = colLine >= 0 ? cursor.getString(colLine) : "";
+                String city        = colCity >= 0 ? cursor.getString(colCity) : "";
+                String full        = addressLine + ", " + city;
+                int    id          = colId   >= 0 ? cursor.getInt(colId) : -1;
+
+                if ("Home".equals(type)) {
+                    homeAddressId = id;
+                    homeAddress.setText(full);
+                } else if ("Office".equals(type)) {
+                    officeAddressId = id;
+                    officeAddress.setText(full);
+                }
+            } while (cursor.moveToNext());
+            cursor.close();
         } else {
-            homeAddress.setText(R.string.no_home_address);
-            officeAddress.setText(R.string.no_office_address);
+            homeAddress.setText("Tap to add home address");
+            officeAddress.setText("Tap to add office address");
         }
     }
 
     private void setupListeners() {
-        // Back button
         btnBack.setOnClickListener(v -> finish());
 
-        // Profile picture click
         profilePicture.setOnClickListener(v ->
                 Toast.makeText(this, "Edit profile picture", Toast.LENGTH_SHORT).show());
 
-        // Address clicks
-        homeAddressLayout.setOnClickListener(v ->
-                Toast.makeText(this, "Edit home address", Toast.LENGTH_SHORT).show());
-        officeAddressLayout.setOnClickListener(v ->
-                Toast.makeText(this, "Edit office address", Toast.LENGTH_SHORT).show());
+        // ✅ Phone click → edit dialog
+        userPhone.setOnClickListener(v -> showPhoneDialog());
 
-        // Bottom Navigation
+        // ✅ Address clicks → edit dialogs
+        homeAddressLayout.setOnClickListener(v ->
+                showAddressDialog("Home", homeAddressId));
+        officeAddressLayout.setOnClickListener(v ->
+                showAddressDialog("Office", officeAddressId));
+
         navHome.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
-
         navCategories.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, ProductsActivity.class);
             intent.putExtra("CATEGORY", "All");
             startActivity(intent);
         });
-
         navCart.setOnClickListener(v ->
                 startActivity(new Intent(ProfileActivity.this, CartActivity.class)));
-
         navProfile.setOnClickListener(v ->
                 Toast.makeText(this, "Already on profile", Toast.LENGTH_SHORT).show());
+    }
+
+    // ── Phone dialog ─────────────────────────────────────────────────────────
+    private void showPhoneDialog() {
+        View view = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_edit_phone, null);
+        EditText etPhone = view.findViewById(R.id.etPhone);
+
+        // Pre-fill current phone
+        String current = userPhone.getText().toString();
+        if (!current.equals("Tap to add phone number")) {
+            etPhone.setText(current);
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Edit Phone Number")
+                .setView(view)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    String phone = etPhone.getText().toString().trim();
+                    if (phone.isEmpty()) {
+                        Toast.makeText(this, "Enter a phone number", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // Update in database
+                    android.content.ContentValues values = new android.content.ContentValues();
+                    values.put("phone", phone);
+                    android.database.sqlite.SQLiteDatabase db =
+                            databaseHelper.getWritableDatabase();
+                    db.update("users", values, "user_id=?",
+                            new String[]{String.valueOf(currentUserId)});
+                    db.close();
+
+                    userPhone.setText(phone);
+                    Toast.makeText(this, "Phone number saved!", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    // ── Address dialog ────────────────────────────────────────────────────────
+    private void showAddressDialog(String type, int existingId) {
+        View view = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_edit_address, null);
+        EditText etLine = view.findViewById(R.id.etAddressLine);
+        EditText etCity = view.findViewById(R.id.etCity);
+
+        // Pre-fill existing address
+        if (existingId != -1) {
+            Cursor cursor = databaseHelper.getUserAddresses(currentUserId);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    int colId   = cursor.getColumnIndex("address_id");
+                    int colType = cursor.getColumnIndex("type");
+                    if (colId >= 0 && cursor.getInt(colId) == existingId) {
+                        int colLine = cursor.getColumnIndex("address_line");
+                        int colCity = cursor.getColumnIndex("city");
+                        if (colLine >= 0) etLine.setText(cursor.getString(colLine));
+                        if (colCity >= 0) etCity.setText(cursor.getString(colCity));
+                        break;
+                    }
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Edit " + type + " Address")
+                .setView(view)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    String line = etLine.getText().toString().trim();
+                    String city = etCity.getText().toString().trim();
+
+                    if (line.isEmpty() || city.isEmpty()) {
+                        Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (existingId == -1) {
+                        // New address
+                        long newId = databaseHelper.addAddress(
+                                currentUserId, type, line, city);
+                        if ("Home".equals(type))   homeAddressId   = (int) newId;
+                        if ("Office".equals(type)) officeAddressId = (int) newId;
+                    } else {
+                        // Update existing
+                        databaseHelper.updateAddress(existingId, type, line, city);
+                    }
+
+                    String full = line + ", " + city;
+                    if ("Home".equals(type))   homeAddress.setText(full);
+                    if ("Office".equals(type)) officeAddress.setText(full);
+
+                    Toast.makeText(this, type + " address saved!", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }

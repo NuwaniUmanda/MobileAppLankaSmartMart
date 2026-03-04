@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,21 +48,47 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvPrice.setText(String.format(Locale.getDefault(), "LKR %.2f", product.getPrice()));
         holder.ivProduct.setImageResource(product.getImageResource());
 
-        // Out of stock handling
-        if (!product.isInStock()) {
-            holder.tvOutOfStock.setVisibility(View.VISIBLE);
-            holder.btnAddToCart.setEnabled(false);
-            holder.btnAddToCart.setAlpha(0.5f);
-        } else {
-            holder.tvOutOfStock.setVisibility(View.GONE);
+        // Random rating between 3.0 and 5.0 for display
+        float rating = 3.0f + (product.getId() % 5) * 0.5f;
+        holder.ratingBar.setRating(rating);
+
+        // Stock badge
+        if (product.isInStock()) {
+            holder.tvStockBadge.setText("In Stock");
+            holder.tvStockBadge.setBackgroundResource(R.drawable.badge_in_stock);
             holder.btnAddToCart.setEnabled(true);
             holder.btnAddToCart.setAlpha(1.0f);
+            holder.btnMinus.setEnabled(true);
+            holder.btnPlus.setEnabled(true);
+        } else {
+            holder.tvStockBadge.setText("Out of Stock");
+            holder.tvStockBadge.setBackgroundResource(R.drawable.badge_out_of_stock);
+            holder.btnAddToCart.setEnabled(false);
+            holder.btnAddToCart.setAlpha(0.5f);
+            holder.btnMinus.setEnabled(false);
+            holder.btnPlus.setEnabled(false);
         }
 
-        // Whole card click → ProductDetailsActivity
+        // Quantity controls
+        final int[] quantity = {1};
+        holder.tvQuantity.setText(String.valueOf(quantity[0]));
+
+        holder.btnMinus.setOnClickListener(v -> {
+            if (quantity[0] > 1) {
+                quantity[0]--;
+                holder.tvQuantity.setText(String.valueOf(quantity[0]));
+            }
+        });
+
+        holder.btnPlus.setOnClickListener(v -> {
+            quantity[0]++;
+            holder.tvQuantity.setText(String.valueOf(quantity[0]));
+        });
+
+        // Card click → ProductDetailsActivity
         holder.itemView.setOnClickListener(v -> listener.onProductClick(product));
 
-        // Add to Cart button click
+        // Add to Cart
         holder.btnAddToCart.setOnClickListener(v -> {
             SharedPreferences prefs = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
             int userId = prefs.getInt("USER_ID", -1);
@@ -71,10 +98,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 return;
             }
             DatabaseHelper dbHelper = new DatabaseHelper(context);
-            dbHelper.addToCart(userId, product.getId(), 1);
-            dbHelper.close(); // close after use to avoid resource leak
+            dbHelper.addToCart(userId, product.getId(), quantity[0]);
+            dbHelper.close();
 
-            Toast.makeText(context, product.getName() + " added to cart!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, quantity[0] + "x " + product.getName() + " added to cart!", Toast.LENGTH_SHORT).show();
+
+            // Reset quantity after adding
+            quantity[0] = 1;
+            holder.tvQuantity.setText("1");
         });
     }
 
@@ -84,17 +115,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivProduct;
-        TextView tvProductName, tvPrice, tvOutOfStock;
+        ImageView ivProduct, btnMinus, btnPlus;
+        TextView tvProductName, tvPrice, tvStockBadge, tvQuantity;
         Button btnAddToCart;
+        RatingBar ratingBar;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             ivProduct     = itemView.findViewById(R.id.ivProduct);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvPrice       = itemView.findViewById(R.id.tvPrice);
-            tvOutOfStock  = itemView.findViewById(R.id.tvOutOfStock);
+            tvStockBadge  = itemView.findViewById(R.id.tvStockBadge);
+            tvQuantity    = itemView.findViewById(R.id.tvQuantity);
             btnAddToCart  = itemView.findViewById(R.id.btnAddToCart);
+            btnMinus      = itemView.findViewById(R.id.btnMinus);
+            btnPlus       = itemView.findViewById(R.id.btnPlus);
+            ratingBar     = itemView.findViewById(R.id.ratingBar);
         }
     }
 }

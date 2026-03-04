@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -8,35 +9,139 @@
     <RelativeLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_height="100dp"
+        android:paddingTop="40dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="#FFFFFF"
-        android:elevation="4dp">
+        android:elevation="10dp"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/backBtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_arrow_back"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
             android:clickable="true"
+            android:contentDescription="Back"
             android:focusable="true"
             android:padding="8dp"
-            android:contentDescription="@string/back"
-            app:tint="#212121" />
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/my_cart"
+            android:paddingTop="20dp"
+            android:text="My Cart"
             android:textColor="#212121"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_favorite"
+                android:padding="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Wishlist"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_share"
+                android:padding="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Share"/>
+        </LinearLayout>
 
     </RelativeLayout>
+
+    <!-- Bottom Navigation (Settings style) -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:weightSum="4"
+        android:baselineAligned="false"
+        android:elevation="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_home"
+            android:drawablePadding="4dp"
+            android:text="Home"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navCategories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_categories"
+            android:drawablePadding="4dp"
+            android:text="Categories"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <!-- Cart — Active -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navCart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_cart"
+            app:drawableTint="#2E7D32"
+            android:drawablePadding="4dp"
+            android:text="Cart"
+            android:textSize="12sp"
+            android:textColor="#2E7D32"
+            android:textStyle="bold"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_profile"
+            android:drawablePadding="4dp"
+            android:text="Profile"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </LinearLayout>
 
     <!-- Empty Cart State -->
     <LinearLayout
@@ -44,6 +149,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/topBar"
+        android:layout_above="@id/bottomNavigation"
         android:orientation="vertical"
         android:gravity="center"
         android:visibility="gone">
@@ -52,26 +158,25 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_cart"
-            android:contentDescription="@string/empty_cart"
+            android:contentDescription="Empty cart"
             app:tint="#CCCCCC"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cart_empty_title"
+            android:text="Your cart is empty"
             android:textColor="#757575"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cart_empty_subtitle"
+            android:text="Add items to get started"
             android:textColor="#9E9E9E"
             android:textSize="14sp"
-            android:layout_marginTop="8dp" />
-
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
     <!-- Cart Content -->
@@ -79,18 +184,56 @@
         android:id="@+id/cartContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/topBar">
+        android:layout_below="@id/topBar"
+        android:layout_above="@id/bottomNavigation">
+
+        <!-- Delivery / Pickup Toggle -->
+        <LinearLayout
+            android:id="@+id/deliveryToggle"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/toggle_background"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnDelivery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Delivery"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/toggle_selected"/>
+
+            <TextView
+                android:id="@+id/btnPickup"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Pickup"
+                android:gravity="center"
+                android:textColor="#2E7D32"
+                android:textSize="14sp"/>
+        </LinearLayout>
 
         <!-- Cart Items RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/deliveryToggle"
             android:layout_above="@id/orderSummaryCard"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:paddingTop="12dp"
-            android:clipToPadding="false" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"/>
 
         <!-- Order Summary -->
         <LinearLayout
@@ -98,44 +241,76 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/category_card_background"
+            android:background="#FFFFFF"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="16dp"
+            android:elevation="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/order_summary"
-                android:textColor="#212121"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp" />
+            <!-- Promo Code Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_pencil"
+                        app:tint="#9E9E9E" />
+
+                    <EditText
+                        android:id="@+id/promoCodeInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:hint="Enter promo code"
+                        android:inputType="text"
+                        android:paddingStart="8dp"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnApplyPromo"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:text="Apply"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:backgroundTint="#2E7D32"
+                    android:textAllCaps="false"/>
+            </LinearLayout>
 
             <!-- Subtotal Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:baselineAligned="false"
-                android:layout_marginBottom="10dp">
-
+                android:layout_marginBottom="6dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/subtotal"
+                    android:text="Subtotal"
                     android:textColor="#757575"
-                    android:textSize="14sp" />
-
+                    android:textSize="14sp"/>
                 <TextView
                     android:id="@+id/subtotalText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/default_price"
+                    android:text="LKR 0.00"
                     android:textColor="#212121"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
+                    android:textSize="14sp"/>
             </LinearLayout>
 
             <!-- Delivery Row -->
@@ -143,60 +318,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:baselineAligned="false"
-                android:layout_marginBottom="12dp">
-
+                android:layout_marginBottom="6dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/delivery_fee"
+                    android:text="Delivery"
                     android:textColor="#757575"
-                    android:textSize="14sp" />
-
+                    android:textSize="14sp"/>
                 <TextView
                     android:id="@+id/deliveryFeeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/default_delivery_fee"
+                    android:text="LKR 150.00"
                     android:textColor="#212121"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
+            <!-- Discount Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Discount"
+                    android:textColor="#2E7D32"
+                    android:textSize="14sp"/>
+                <TextView
+                    android:id="@+id/discountText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-LKR 0.00"
+                    android:textColor="#2E7D32"
+                    android:textSize="14sp"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E0E0E0"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="8dp"/>
 
             <!-- Total Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:baselineAligned="false"
-                android:layout_marginBottom="16dp">
-
+                android:layout_marginBottom="12dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/total"
+                    android:text="Total"
                     android:textColor="#212121"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
-
+                    android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/totalText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/default_price"
-                    android:textColor="#31835D"
+                    android:text="LKR 0.00"
+                    android:textColor="#212121"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
-
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <!-- Checkout Button -->
@@ -204,15 +392,14 @@
                 android:id="@+id/checkoutBtn"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:text="@string/proceed_checkout"
+                android:text="Checkout"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:background="@drawable/btn_primary"
-                android:textAllCaps="false" />
+                android:backgroundTint="#2E7D32"
+                android:textAllCaps="false"/>
 
         </LinearLayout>
-
     </RelativeLayout>
 
 </RelativeLayout>

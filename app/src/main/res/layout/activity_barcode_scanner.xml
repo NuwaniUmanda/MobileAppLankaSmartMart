@@ -5,34 +5,36 @@
     android:orientation="vertical"
     android:background="#FFFFFF">
 
-    <!-- Top App Bar -->
+    <!-- Top Bar -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
+        android:paddingTop="40dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="#FFFFFF"
-        android:elevation="4dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:elevation="10dp">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentStart="true"
-            android:src="@drawable/ic_arrow_back"
+            android:clickable="true"
+            android:contentDescription="@string/back"
+            android:focusable="true"
             android:padding="8dp"
-            android:contentDescription="@string/back" />
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingTop="20dp"
             android:text="@string/barcode_scanner"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:textColor="#212121"
-            android:fontFamily="sans-serif-medium" />
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
@@ -62,14 +64,12 @@
             android:layout_height="220dp"
             android:background="@drawable/scanner_frame_bg">
 
-            <!-- Camera preview (SurfaceView - works without extra dependencies) -->
             <SurfaceView
                 android:id="@+id/cameraPreview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone" />
 
-            <!-- Placeholder shown before camera starts -->
             <LinearLayout
                 android:id="@+id/cameraPlaceholder"
                 android:layout_width="match_parent"
@@ -95,7 +95,6 @@
 
             </LinearLayout>
 
-            <!-- Scanner line animation -->
             <View
                 android:id="@+id/scannerLine"
                 android:layout_width="match_parent"
@@ -104,7 +103,6 @@
                 android:layout_gravity="top"
                 android:alpha="0.8" />
 
-            <!-- Corner overlays -->
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -199,7 +197,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_menu_grid"
+                android:src="@drawable/ic_categories"
                 android:contentDescription="@string/categories" />
             <TextView
                 android:layout_width="wrap_content"

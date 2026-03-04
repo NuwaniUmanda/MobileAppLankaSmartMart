@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import android.graphics.Color;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
@@ -32,18 +32,15 @@ public class SplashActivity extends AppCompatActivity {
 
     private void applyGradientToText() {
         tvAppName.post(() -> {
-            float width = tvAppName.getPaint().measureText(tvAppName.getText().toString());
-
             Shader textShader = new LinearGradient(
-                    0, 0, width, 0,
+                    0, 0, 0, tvAppName.getTextSize(),   // vertical gradient (same as LoginActivity)
                     new int[]{
-                            ContextCompat.getColor(SplashActivity.this, R.color.gradient_white_start),
-                            ContextCompat.getColor(SplashActivity.this, R.color.gradient_white_end)
+                            Color.parseColor("#8DF3BF"),
+                            Color.parseColor("#2FA769")
                     },
                     null,
                     Shader.TileMode.CLAMP
             );
-
             tvAppName.getPaint().setShader(textShader);
             tvAppName.invalidate();
         });

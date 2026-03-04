@@ -1,59 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginBottom="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFFFFF">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <!-- Checkbox -->
+        <CheckBox
+            android:id="@+id/itemCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/cb_selector"
+            android:layout_marginEnd="8dp"/>
 
         <!-- Product Image -->
         <ImageView
             android:id="@+id/productImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:scaleType="centerCrop"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="fitCenter"
+            android:padding="4dp"
             android:background="#F5F5F5"
-            android:src="@drawable/ic_groceries"
+            android:src="@drawable/ic_shopping_cart"
             android:contentDescription="Product image"/>
 
         <!-- Product Info -->
         <LinearLayout
-            android:id="@+id/productInfo"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/productImage"
-            android:layout_marginStart="12dp"
-            android:layout_toStartOf="@id/btnDelete"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
-            <!-- Product Name -->
             <TextView
                 android:id="@+id/productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Basmati Rice - 1kg"
+                android:text="Product Name"
                 android:textColor="#212121"
-                android:textSize="16sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"/>
 
-            <!-- Product Price -->
+            <RatingBar
+                android:id="@+id/itemRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:numStars="5"
+                android:rating="4.0"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                android:theme="@style/YellowRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"/>
+
             <TextView
                 android:id="@+id/productPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LKR 350.00"
-                android:textColor="#31835D"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp"/>
+                android:textColor="#212121"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp"/>
 
             <!-- Quantity Controls -->
             <LinearLayout
@@ -61,74 +82,54 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="6dp">
 
-                <!-- Minus Button: 48dp touch target -->
                 <ImageView
                     android:id="@+id/btnMinus"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/quantity_button_bg"
-                    android:padding="12dp"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel"
-                    android:contentDescription="Decrease quantity"
-                    app:tint="#FFFFFF"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/quantity_btn_bg"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_minus"
+                    android:contentDescription="Decrease"
                     android:clickable="true"
                     android:focusable="true"/>
 
-                <!-- Quantity Text -->
                 <TextView
                     android:id="@+id/quantity"
-                    android:layout_width="40dp"
+                    android:layout_width="32dp"
                     android:layout_height="wrap_content"
                     android:text="1"
-                    android:textAlignment="center"
+                    android:gravity="center"
                     android:textColor="#212121"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"/>
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
 
-                <!-- Plus Button: 48dp touch target -->
                 <ImageView
                     android:id="@+id/btnPlus"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/quantity_button_bg"
-                    android:padding="12dp"
-                    android:src="@android:drawable/ic_input_add"
-                    android:contentDescription="Increase quantity"
-                    app:tint="#FFFFFF"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/quantity_btn_bg"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_plus"
+                    android:contentDescription="Increase"
                     android:clickable="true"
                     android:focusable="true"/>
 
-                <!-- Total Price -->
-                <TextView
-                    android:id="@+id/totalPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="LKR 350.00"
-                    android:textColor="#212121"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="12dp"/>
             </LinearLayout>
         </LinearLayout>
 
         <!-- Delete Button -->
         <ImageView
             android:id="@+id/btnDelete"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@android:drawable/ic_menu_delete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_delete"
             android:contentDescription="Remove item"
-            app:tint="#C62828"
             android:clickable="true"
             android:focusable="true"
-            android:padding="12dp"/>
+            android:padding="6dp"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,31 +9,34 @@
     <!-- Top Bar -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
+        android:paddingTop="40dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="#FFFFFF"
-        android:elevation="4dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:elevation="10dp">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentStart="true"
-            android:src="@drawable/ic_arrow_back"
+            android:clickable="true"
+            android:contentDescription="Back"
+            android:focusable="true"
             android:padding="8dp"
-            android:contentDescription="Back" />
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:id="@+id/tvCategoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingTop="20dp"
             android:text="Products"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#212121" />
+            android:textColor="#212121"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
@@ -48,90 +52,74 @@
     <!-- Bottom Navigation -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#FFFFFF"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:padding="12dp"
+        android:weightSum="4"
+        android:baselineAligned="false">
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/navHome"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_home"
-                android:contentDescription="Home" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Home"
-                android:textSize="10sp"
-                android:textColor="#757575" />
-        </LinearLayout>
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_home"
+            android:drawablePadding="4dp"
+            android:text="Home"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/navCategories"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_menu_grid"
-                android:contentDescription="Categories" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Categories"
-                android:textSize="10sp"
-                android:textColor="#757575" />
-        </LinearLayout>
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_categories"
+            android:drawablePadding="4dp"
+            android:text="Categories"
+            android:textSize="12sp"
+            android:textColor="#31835D"
+            android:textStyle="bold"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/navCart"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_cart"
-                android:contentDescription="Cart" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cart"
-                android:textSize="10sp"
-                android:textColor="#757575" />
-        </LinearLayout>
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_cart"
+            android:drawablePadding="4dp"
+            android:text="Cart"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/navProfile"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_profile"
-                android:contentDescription="Profile" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profile"
-                android:textSize="10sp"
-                android:textColor="#757575" />
-        </LinearLayout>
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_profile"
+            android:drawablePadding="4dp"
+            android:text="Profile"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
     </LinearLayout>
 

@@ -72,7 +72,7 @@
             android:textColor="#000000"
             android:textColorHint="#BCBCBC"
             android:background="@drawable/edittext_border"
-            android:drawableStart="@drawable/ic_settings"
+            android:drawableStart="@drawable/ic_lock"
             android:drawablePadding="12dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"

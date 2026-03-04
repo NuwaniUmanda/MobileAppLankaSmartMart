@@ -5,190 +5,141 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- Header -->
+    <!-- Top Bar -->
     <RelativeLayout
-        android:id="@+id/header"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
+        android:paddingTop="40dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="#FFFFFF"
-        android:elevation="2dp"
-        android:padding="16dp">
+        android:elevation="10dp">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_arrow_back"
-            android:padding="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="@string/back"
-            app:tint="#000000"/>
+            android:focusable="true"
+            android:padding="12dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingTop="20dp"
             android:text="@string/notifications"
-            android:textColor="#000000"
+            android:textColor="#212121"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
     </RelativeLayout>
+
+    <!-- Bottom Navigation (Settings style) -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:weightSum="4"
+        android:baselineAligned="false"
+        android:elevation="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_home"
+            android:drawablePadding="4dp"
+            android:text="Home"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navCategories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_categories"
+            android:drawablePadding="4dp"
+            android:text="Categories"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navCart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_cart"
+            android:drawablePadding="4dp"
+            android:text="Cart"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:drawableTopCompat="@drawable/ic_profile"
+            android:drawablePadding="4dp"
+            android:text="Profile"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </LinearLayout>
 
     <!-- Notifications List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerNotifications"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header"
+        android:layout_below="@id/topBar"
         android:layout_above="@id/bottomNavigation"
         android:padding="12dp"
         android:clipToPadding="false"/>
 
     <!-- Empty State -->
-    <LinearLayout
+    <TextView
         android:id="@+id/emptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
         android:gravity="center"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_notifications"
-            android:contentDescription="@string/no_notifications"
-            app:tint="#CCCCCC"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_notifications"
-            android:textColor="#888888"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"/>
-
-    </LinearLayout>
-
-    <!-- Bottom Navigation -->
-    <LinearLayout
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:baselineAligned="false"
-        android:weightSum="4">
-
-        <!-- Home -->
-        <LinearLayout
-            android:id="@+id/navHome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/home"
-            android:background="?attr/selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_home"
-                android:contentDescription="@string/home"
-                app:tint="#888888"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home"
-                android:textSize="11sp"
-                android:textColor="#888888"/>
-        </LinearLayout>
-
-        <!-- Categories -->
-        <LinearLayout
-            android:id="@+id/navCategories"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/categories"
-            android:background="?attr/selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_categories"
-                android:contentDescription="@string/categories"
-                app:tint="#888888"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/categories"
-                android:textSize="11sp"
-                android:textColor="#888888"/>
-        </LinearLayout>
-
-        <!-- Cart -->
-        <LinearLayout
-            android:id="@+id/navCart"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/cart"
-            android:background="?attr/selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_cart"
-                android:contentDescription="@string/cart"
-                app:tint="#888888"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cart"
-                android:textSize="11sp"
-                android:textColor="#888888"/>
-        </LinearLayout>
-
-        <!-- Profile -->
-        <LinearLayout
-            android:id="@+id/navProfile"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/profile"
-            android:background="?attr/selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_profile"
-                android:contentDescription="@string/profile"
-                app:tint="#888888"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile"
-                android:textSize="11sp"
-                android:textColor="#888888"/>
-        </LinearLayout>
-
-    </LinearLayout>
+        android:visibility="gone"
+        android:text="@string/no_notifications"
+        android:textColor="#616161"
+        android:textSize="16sp"
+        android:drawableTop="@drawable/ic_notifications"
+        android:drawablePadding="16dp"
+        app:drawableTint="#CCCCCC"/>
 
 </RelativeLayout>

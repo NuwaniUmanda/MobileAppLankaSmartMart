@@ -183,6 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // insert: Groceries=1, Household=2, Personal Care=3, Stationery=4
     private void insertDefaultCategories(SQLiteDatabase db) {
         String[] categories = {"Groceries", "Household", "Personal Care", "Stationery"};
         String[] icons = {"🛒", "🏠", "💄", "📝"};
@@ -193,46 +194,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(CATEGORY_ICON, icons[i]);
             db.insert(TABLE_CATEGORIES, null, values);
         }
-        // After insert: Groceries=1, Household=2, Personal Care=3, Stationery=4
     }
 
     private void insertSampleProducts(SQLiteDatabase db) {
-        // {name, price, category_id, description, image_url, stock}
-        // category_id: 1=Groceries, 2=Household, 3=Personal Care, 4=Stationery
         Object[][] products = {
-                // Groceries (category_id = 1)
-                {"Basmati Rice - 1kg",      350.00, 1, "Premium quality rice",       "product_rice", 100},
-                {"Fresh Milk (1L)",         250.00, 1, "Farm fresh daily milk",       "",             50},
-                {"Free Range Eggs (12pcs)", 450.00, 1, "Organic eggs",               "",             30},
-                {"Coconut Oil 1L",          350.00, 1, "Pure coconut oil",            "",             40},
+                // Groceries
+                {"Basmati Rice - 1kg", 350.00, 1, "Premium quality basmati rice", "img_rice", 100},
+                {"Imorich French Vanilla - 1L", 1290.00, 1, "Rich and creamy French vanilla ice cream", "img_ice_cream", 0},
+                {"Munchee Choc Shock - 90g", 300.00, 1, "Delicious chocolate biscuits", "img_chocolate", 20},
+                {"Tiara Sponge Layer Cake - 310g", 550.00, 1, "Soft and fluffy sponge cake", "img_cake", 8},
 
-                // Household (category_id = 2)
-                {"Dish Soap (500ml)",       180.00, 2, "Lemon scented",              "",             60},
-                {"Washing Powder 1kg",      280.00, 2, "Strong cleaning powder",     "",             45},
-                {"Floor Cleaner (1L)",      320.00, 2, "Pine fresh",                 "",             35},
+                // Household
+                {"Vim Dishwash Liquid Anti Smell 500ml", 450.00, 2, "Anti smell dishwash liquid 500ml", "img_vim_dishwash", 50},
+                {"Lysol Lavender Disinfectant 500ml", 500.00, 2, "Lavender disinfectant kills 99.9% germs", "img_lysol", 30},
 
-                // Personal Care (category_id = 3)
-                {"Shampoo 200ml",           320.00, 3, "Herbal shampoo",             "",             55},
-                {"Toothpaste",              220.00, 3, "Whitening formula",          "",             70},
-                {"Body Soap (3-pack)",      350.00, 3, "Moisturizing",               "",             40},
+                // Personal Care
+                {"Lux Soap Jasmine And Vitamin E 100g", 170.00, 3, "Jasmine and Vitamin E moisturizing soap", "img_lux_soap", 40},
+                {"Sunsilk Onion & Jojoba Oil 200ml", 750.00, 3, "Hair fall resist shampoo", "img_sunsilk", 15},
 
-                // Stationery (category_id = 4)
-                {"Note Book A4",            150.00, 4, "80 pages ruled notebook",    "",             80},
-                {"Ball Pens (Pack of 10)",  350.00, 4, "Blue ink",                   "",             100},
-                {"A4 Paper (500 sheets)",   950.00, 4, "Premium quality",            "",             25}
+                // Stationery
+                {"Promate Notebook Single A6 80P", 90.00, 4, "Single ruled A6 notebook 80 pages", "img_promate_notebook", 100},
+                {"Atlas Pen Chooty II Assorted 3Pkt", 85.00, 4, "Assorted color pen pack of 3", "img_atlas_pen", 75}
         };
 
         for (Object[] product : products) {
             ContentValues values = new ContentValues();
-            values.put(PRODUCT_NAME,        (String) product[0]);
-            values.put(PRODUCT_PRICE,       (Double) product[1]);
+            values.put(PRODUCT_NAME, (String) product[0]);
+            values.put(PRODUCT_PRICE, (Double) product[1]);
             values.put(PRODUCT_CATEGORY_ID, (Integer) product[2]);
             values.put(PRODUCT_DESCRIPTION, (String) product[3]);
-            values.put(PRODUCT_IMAGE,       (String) product[4]);
-            values.put(PRODUCT_STOCK,       (Integer) product[5]);
+            values.put(PRODUCT_IMAGE, (String) product[4]);
+            values.put(PRODUCT_STOCK, (Integer) product[5]);
             db.insert(TABLE_PRODUCTS, null, values);
         }
     }
+
     // USER OPERATIONS
 
     public boolean addUser(String name, String email, String password, String phone) {
@@ -298,6 +294,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return userId;
+    }
+
+    public int getUserIdByEmail(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("users", new String[]{"id"},
+                "email=?", new String[]{email}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(0);
+            cursor.close();
+            return id;
+        }
+        return -1;
     }
 
     // PRODUCT OPERATIONS

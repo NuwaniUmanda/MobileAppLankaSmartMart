@@ -2,7 +2,6 @@ package com.example.lankasmartmart;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +17,7 @@ public class ProductsActivity extends AppCompatActivity {
     RecyclerView recyclerProducts;
     TextView tvCategoryTitle;
     android.view.View btnBack;
-    LinearLayout navHome, navCategories, navCart, navProfile;
-
+    androidx.appcompat.widget.AppCompatTextView navHome, navCategories, navCart, navProfile;
     List<Product> productList;
     List<Product> filteredList;
     String selectedCategory;
@@ -92,29 +90,29 @@ public class ProductsActivity extends AppCompatActivity {
         productList.add(new Product(1, "Basmati Rice - 1kg", 350.00,
                 "Groceries", "Premium quality basmati rice", 10, R.drawable.img_rice));
         productList.add(new Product(2, "Imorich French Vanilla - 1L", 1290.00,
-                "Groceries", "Rich and creamy French vanilla ice cream", 5, R.drawable.img_ice_cream));
+                "Groceries", "Indulge in the rich and creamy taste of Imorich French Ice Cream, crafted with high-quality ingredients for a smooth and luxurious experience. Every scoop delivers a perfect balance of sweetness and flavor, making it an ideal treat for any moment.\n\n✨ Rich • Creamy • Premium Taste", 0, R.drawable.img_ice_cream));
         productList.add(new Product(3, "Munchee Choc Shock - 90g", 300.00,
                 "Groceries", "Delicious chocolate biscuits", 20, R.drawable.img_chocolate));
         productList.add(new Product(4, "Tiara Sponge Layer Cake - 310g", 550.00,
                 "Groceries", "Soft and fluffy sponge cake", 8, R.drawable.img_cake));
 
         // Household
-        productList.add(new Product(5, "Vim Dishwash Bar", 120.00,
-                "Household", "Effective grease-cutting dishwash bar", 50, R.drawable.img_rice));
-        productList.add(new Product(6, "Dettol Floor Cleaner", 450.00,
-                "Household", "Kills 99.9% of germs", 30, R.drawable.img_rice));
+        productList.add(new Product(5, "Vim Dishwash Liquid Anti Smell 500ml", 450.00,
+                "Household", "Anti smell dishwash liquid 500ml", 50, R.drawable.img_vim_dishwash));
+        productList.add(new Product(6, "Lysol Lavender Disinfectant 500ml", 500.00,
+                "Household", "Lavender disinfectant kills 99.9% germs", 30, R.drawable.img_lysol));
 
         // Personal Care
-        productList.add(new Product(7, "Dove Soap - 100g", 280.00,
-                "Personal Care", "Moisturizing beauty bar", 40, R.drawable.img_rice));
-        productList.add(new Product(8, "Head & Shoulders Shampoo", 890.00,
-                "Personal Care", "Anti-dandruff shampoo 400ml", 15, R.drawable.img_rice));
+        productList.add(new Product(7, "Lux Soap Jasmine And Vitamin E 100g", 170.00,
+                "Personal Care", "Jasmine and Vitamin E moisturizing soap", 40, R.drawable.img_lux_soap));
+        productList.add(new Product(8, "Sunsilk Onion & Jojoba Oil Shampoo 200ml", 750.00,
+                "Personal Care", "Hair fall resist shampoo", 15, R.drawable.img_sunsilk));
 
         // Stationery
-        productList.add(new Product(9, "Ballpoint Pen Set", 150.00,
-                "Stationery", "Pack of 10 pens", 100, R.drawable.img_rice));
-        productList.add(new Product(10, "A4 Notebook", 320.00,
-                "Stationery", "200 pages ruled notebook", 25, R.drawable.img_rice));
+        productList.add(new Product(9, "Promate Notebook Single A6 80P", 90.00,
+                "Stationery", "Single ruled A6 notebook 80 pages", 100, R.drawable.img_promate_notebook));
+        productList.add(new Product(10, "Atlas Pen Chooty II Assorted 3Pkt", 85.00,
+                "Stationery", "Assorted color pen pack of 3", 75, R.drawable.img_atlas_pen));
     }
 
     private void filterByCategory() {

@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#F5F5F5">
 
     <!-- Top Bar -->
     <RelativeLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:paddingTop="40dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="#FFFFFF"
-        android:padding="16dp"
-        android:elevation="4dp">
+        android:elevation="10dp">
 
-        <!-- Back Button -->
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back"
-            android:padding="8dp"
-            app:tint="#212121"
             android:clickable="true"
-            android:focusable="true"/>
+            android:contentDescription="Back"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back" />
 
-        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingTop="20dp"
             android:text="Order Confirmation"
             android:textColor="#212121"
             android:textSize="20sp"
             android:textStyle="bold"/>
+
     </RelativeLayout>
 
+    <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/topBar"
-        android:layout_above="@id/bottomNavigation">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,37 +53,36 @@
             android:gravity="center_horizontal"
             android:padding="24dp">
 
-            <!-- Success Icon -->
-            <RelativeLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="40dp"
+            <!-- Green Outlined Circle with Checkmark -->
+            <FrameLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="24dp">
 
-                <!-- Circle Background -->
                 <View
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:background="@drawable/success_circle_bg"/>
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/circle_shape" />
 
-                <!-- Checkmark Icon -->
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true"
-                    android:src="@android:drawable/checkbox_on_background"
-                    android:contentDescription="Order placed successfully"
-                    app:tint="#FFFFFF"/>
-            </RelativeLayout>
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_checkmark"
+                    android:contentDescription="Success"
+                    app:tint="#31835D"/>
+            </FrameLayout>
 
-            <!-- Success Message -->
+            <!-- Order Placed Successfully -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Order Placed Successfully!"
                 android:textColor="#212121"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:layout_marginBottom="8dp"/>
 
             <!-- Order ID -->
@@ -90,10 +90,10 @@
                 android:id="@+id/orderIdText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order #LKM2026/202/0214"
+                android:text="Order #LKM2026020214"
                 android:textColor="#757575"
-                android:textSize="14sp"
-                android:layout_marginBottom="32dp"/>
+                android:textSize="13sp"
+                android:layout_marginBottom="28dp"/>
 
             <!-- Order Details Card -->
             <LinearLayout
@@ -101,16 +101,16 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/profile_card_background"
                 android:orientation="vertical"
-                android:padding="20dp"
-                android:layout_marginBottom="16dp">
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
 
                 <!-- Estimated Delivery -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estimated Delivery"
-                    android:textColor="#757575"
-                    android:textSize="12sp"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
                     android:layout_marginBottom="4dp"/>
 
                 <TextView
@@ -118,24 +118,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tomorrow, 2-4 PM"
-                    android:textColor="#31835D"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="16dp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginBottom="16dp"/>
+                    android:textColor="#757575"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="14dp"/>
 
                 <!-- Delivery Address -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delivery Address"
-                    android:textColor="#757575"
-                    android:textSize="12sp"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
                     android:layout_marginBottom="4dp"/>
 
                 <TextView
@@ -143,49 +136,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123, Galle Road, Colombo 03"
-                    android:textColor="#212121"
+                    android:textColor="#757575"
                     android:textSize="14sp"
-                    android:layout_marginBottom="16dp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginBottom="14dp"/>
 
                 <!-- Total Amount -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="Total Amount"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="4dp"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Total Amount"
-                        android:textColor="#757575"
-                        android:textSize="14sp"/>
+                <TextView
+                    android:id="@+id/totalAmountText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LKR 1,130.00"
+                    android:textColor="#757575"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/totalAmountText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LKR 1,130.00"
-                        android:textColor="#212121"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
             </LinearLayout>
 
             <!-- Track Order Button -->
             <Button
                 android:id="@+id/trackOrderButton"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="52dp"
                 android:text="Track Order"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:backgroundTint="#31835D"
                 android:textAllCaps="false"
                 android:layout_marginBottom="12dp"/>
@@ -194,11 +177,12 @@
             <Button
                 android:id="@+id/continueShoppingButton"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="52dp"
                 android:text="Continue Shopping"
-                android:textColor="#31835D"
-                android:textSize="16sp"
-                android:background="@drawable/outlined_button"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:backgroundTint="#21AD65"
                 android:textAllCaps="false"
                 android:layout_marginBottom="20dp"/>
 
@@ -210,7 +194,6 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
         android:orientation="horizontal"
         android:padding="12dp"
@@ -226,21 +209,19 @@
             android:gravity="center"
             android:clickable="true"
             android:focusable="true">
-
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/ic_home"
                 android:contentDescription="Home"
                 app:tint="#757575"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Home"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textColor="#757575"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="3dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -252,21 +233,19 @@
             android:gravity="center"
             android:clickable="true"
             android:focusable="true">
-
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/ic_categories"
                 android:contentDescription="Categories"
                 app:tint="#757575"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Categories"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textColor="#757575"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="3dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -278,21 +257,19 @@
             android:gravity="center"
             android:clickable="true"
             android:focusable="true">
-
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/ic_cart"
                 android:contentDescription="Cart"
                 app:tint="#757575"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cart"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textColor="#757575"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="3dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -304,22 +281,21 @@
             android:gravity="center"
             android:clickable="true"
             android:focusable="true">
-
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/ic_profile"
                 android:contentDescription="Profile"
                 app:tint="#757575"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textColor="#757575"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="3dp"/>
         </LinearLayout>
+
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
